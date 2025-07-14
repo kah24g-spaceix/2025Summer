@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class MazeGenerator : MonoBehaviour
 {
+    public GameObject scareTriggerPrefab;
     public GameObject WallPrefab;
     public GameObject TilePrefab;
 
@@ -14,11 +15,10 @@ public class MazeGenerator : MonoBehaviour
 
     void Start()
     {
-        GenerateMaze();
-        GenerateTiles();
-        GenerateMaze();
-        GenerateTiles();
-        CenterCamera();
+        GenerateMaze();         // 미로 논리 생성
+        GenerateTiles();        // 타일(프리팹) 생성
+        PlaceScareTriggers();   // 공포 트리거 배치
+        CenterCamera();         // 카메라 중앙 정렬
     }
 
     void CenterCamera()
@@ -30,6 +30,38 @@ public class MazeGenerator : MonoBehaviour
         Camera.main.orthographicSize = height / 2f + 1f; // 1 정도는 여유
         Camera.main.transform.position = new Vector3(centerX, centerY, -10f);
     }
+
+    void PlaceScareTriggers()
+    {
+        List<Vector2> pathTiles = new List<Vector2>();
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (grid[x, y]) 
+                {
+                    pathTiles.Add(new Vector2(x, y));
+                }
+            }
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            if (pathTiles.Count == 0) break;
+
+            int index = Random.Range(0, pathTiles.Count);
+            Vector2 pos = pathTiles[index];
+            pathTiles.RemoveAt(index);
+
+            GameObject trigger = Instantiate(scareTriggerPrefab);
+            trigger.transform.position = new Vector2(pos.x * tileRatio, pos.y * tileRatio);
+
+            ScareTrigger scare = trigger.GetComponent<ScareTrigger>();
+            scare.scareType = (ScareTrigger.ScareType)Random.Range(0, 3);
+        }
+    }
+
 
     void GenerateMaze()
     {
