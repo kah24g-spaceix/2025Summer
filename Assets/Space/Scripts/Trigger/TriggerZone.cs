@@ -12,8 +12,6 @@
 // 4. 씬(Scene) 뷰에서 콜라이더의 크기와 위치를 원하는 트리거 영역에 맞게 조절합니다.
 
 using UnityEngine;
-
-[RequireComponent(typeof(BoxCollider2D))]
 public class TriggerZone : MonoBehaviour
 {
     [Header("Trigger Settings")]
@@ -24,7 +22,7 @@ public class TriggerZone : MonoBehaviour
     {
         // 스크립트가 제대로 작동하려면 콜라이더가 반드시 트리거로 설정되어 있어야 합니다.
         // 사용자의 실수를 방지하기 위해, 코드에서도 한 번 더 확인하고 설정해줍니다.
-        GetComponent<BoxCollider2D>().isTrigger = true;
+        GetComponent<CircleCollider2D>().isTrigger = true;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

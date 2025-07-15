@@ -11,8 +11,6 @@
 
 using UnityEngine;
 using UnityEngine.InputSystem;
-
-[RequireComponent(typeof(BoxCollider2D))]
 public class InteractionZone : MonoBehaviour
 {
     [Header("Interaction Settings")]
@@ -25,7 +23,7 @@ public class InteractionZone : MonoBehaviour
     private void Awake()
     {
         // 콜라이더가 반드시 트리거로 설정되도록 보장합니다.
-        GetComponent<BoxCollider2D>().isTrigger = true;
+        GetComponent<CircleCollider2D>().isTrigger = true;
     }
 
     private void Update()
