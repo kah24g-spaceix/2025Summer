@@ -47,6 +47,7 @@ public class PlayerMove : MonoBehaviour
     private float coyoteTimeCounter;
     private float jumpBufferCounter;
 
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
