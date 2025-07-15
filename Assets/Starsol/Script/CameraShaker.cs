@@ -3,13 +3,10 @@ using System.Collections;
 
 public class CameraShaker : MonoBehaviour
 {
-    public static void Shake(float duration, float magnitude)
+    public void ShakeInstance(float duration, float magnitude)
     {
-        instance.StartCoroutine(instance.ShakeRoutine(duration, magnitude));
+        StartCoroutine(ShakeRoutine(duration, magnitude));
     }
-
-    private static CameraShaker instance;
-    void Awake() { instance = this; }
 
     IEnumerator ShakeRoutine(float duration, float magnitude)
     {
