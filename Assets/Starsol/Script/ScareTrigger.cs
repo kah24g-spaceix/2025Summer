@@ -20,11 +20,11 @@ public class ScareTrigger : MonoBehaviour
 
     private void Start()
     {
-        // ¾À ¾È¿¡¼­ CameraShaker ÀÚµ¿À¸·Î Ã£±â (¿ÀÁ÷ ÇÑ ¹ø)
-        cameraShaker = FindObjectOfType<CameraShaker>();
+        // ï¿½ï¿½ ï¿½È¿ï¿½ï¿½ï¿½ CameraShaker ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½)
+        cameraShaker = FindFirstObjectByType<CameraShaker>();
         if (cameraShaker == null)
         {
-            Debug.LogWarning("CameraShaker¸¦ ¾À¿¡¼­ Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogWarning("CameraShakerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
         }
     }
 
@@ -60,7 +60,7 @@ public class ScareTrigger : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Jumpscare Image PrefabÀÌ ºñ¾îÀÖ½À´Ï´Ù.");
+            Debug.LogWarning("Jumpscare Image Prefabï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö½ï¿½ï¿½Ï´ï¿½.");
         }
     }
 

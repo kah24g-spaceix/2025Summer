@@ -18,7 +18,6 @@ public class PlayerMove : MonoBehaviour
 {
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float jumpForce = 5f;
 
     [Header("Ground Check Settings")]
     [SerializeField] private LayerMask groundLayer;
@@ -57,6 +56,12 @@ public class PlayerMove : MonoBehaviour
     private void Update()
     {
         jumpBufferCounter -= Time.deltaTime;
+
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        {
+            rb.gravityScale *= -1;
+        }
+            
     }
 
     private void FixedUpdate()
@@ -64,7 +69,6 @@ public class PlayerMove : MonoBehaviour
         CheckIfGrounded();
         // CheckIfAgainstWall();
         HandleWallSliding();
-        GravityFlip();
         ApplyMovement();
     }
 
@@ -125,15 +129,6 @@ public class PlayerMove : MonoBehaviour
         else
         {
             isWallSliding = false;
-        }
-    }
-
-    private void GravityFlip()
-    {
-        if (Keyboard.current.spaceKey.wasPressedThisFrame)
-        {
-            Debug.Log("Gravity flip activated!");
-            rb.gravityScale *= -1;
         }
     }
 
