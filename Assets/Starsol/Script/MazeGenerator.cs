@@ -54,10 +54,10 @@ public class MazeGenerator : MonoBehaviour
             }
         }
 
-        int totalTriggers = 7;
+        int totalTriggers = 9;
 
         //  목표: Jump 3개, 나머지 4개
-        int jumpscareCount = 3;
+        int jumpscareCount = 4;
         int otherCount = totalTriggers - jumpscareCount;
 
         for (int i = 0; i < totalTriggers; i++)

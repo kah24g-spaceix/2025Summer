@@ -20,11 +20,10 @@ public class ScareTrigger : MonoBehaviour
 
     private void Start()
     {
-        // �� �ȿ��� CameraShaker �ڵ����� ã�� (���� �� ��)
         cameraShaker = FindFirstObjectByType<CameraShaker>();
         if (cameraShaker == null)
         {
-            Debug.LogWarning("CameraShaker�� ������ ã�� �� �����ϴ�.");
+            Debug.LogWarning("CameraShaker");
         }
     }
 
@@ -60,7 +59,7 @@ public class ScareTrigger : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Jumpscare Image Prefab�� ����ֽ��ϴ�.");
+            Debug.LogWarning("Jumpscare Image Prefab.");
         }
     }
 
