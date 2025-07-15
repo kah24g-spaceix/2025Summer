@@ -39,16 +39,17 @@ public class MazeGenerator : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                if (grid[x, y]) 
+                if (grid[x, y])
                 {
                     pathTiles.Add(new Vector2(x, y));
                 }
             }
         }
 
+        // ----- [1] JumpscareImage 3개 먼저 배치 -----
         for (int i = 0; i < 3; i++)
         {
-            if (pathTiles.Count == 0) break;
+            if (pathTiles.Count == 0) return;
 
             int index = Random.Range(0, pathTiles.Count);
             Vector2 pos = pathTiles[index];
@@ -58,9 +59,32 @@ public class MazeGenerator : MonoBehaviour
             trigger.transform.position = new Vector2(pos.x * tileRatio, pos.y * tileRatio);
 
             ScareTrigger scare = trigger.GetComponent<ScareTrigger>();
-            scare.scareType = (ScareTrigger.ScareType)Random.Range(0, 3);
+            scare.scareType = ScareTrigger.ScareType.JumpscareImage;
+        }
+
+        // ----- [2] 나머지 4개는 랜덤으로 Shake 또는 Fake -----
+        for (int i = 0; i < 4; i++)
+        {
+            if (pathTiles.Count == 0) return;
+
+            int index = Random.Range(0, pathTiles.Count);
+            Vector2 pos = pathTiles[index];
+            pathTiles.RemoveAt(index);
+
+            GameObject trigger = Instantiate(scareTriggerPrefab);
+            trigger.transform.position = new Vector2(pos.x * tileRatio, pos.y * tileRatio);
+
+            ScareTrigger scare = trigger.GetComponent<ScareTrigger>();
+
+            // 랜덤으로 Shake or Fake
+            int random = Random.Range(0, 2); // 0 또는 1
+            if (random == 0)
+                scare.scareType = ScareTrigger.ScareType.CameraShakeWithBGM;
+            else
+                scare.scareType = ScareTrigger.ScareType.FakeTrigger;
         }
     }
+
 
 
     void GenerateMaze()

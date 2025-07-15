@@ -75,4 +75,5 @@ public class ScareTrigger : MonoBehaviour
         if (scaryBGM != null)
             scaryBGM.Stop();
     }
+
 }
