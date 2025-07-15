@@ -23,7 +23,7 @@ public class MenuManager : MonoBehaviour
         if (Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             Menu.SetActive(!Menu.activeSelf);
-            Time.timeScale = 0;
+            Time.timeScale = Menu.activeSelf ? 0 : 1;
         }
     }
 
