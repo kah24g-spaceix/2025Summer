@@ -4,6 +4,7 @@ public class DoorController : MonoBehaviour
 {
     private bool trigger1Active = false;
     private bool trigger2Active = false;
+    private bool trigger3Active = false;
     private bool doorOpened = false;
 
     public GameObject door;
@@ -16,8 +17,7 @@ public class DoorController : MonoBehaviour
 
     void Update()
     {
-        Debug.Log($"Trigger1: {trigger1Active}, Trigger2: {trigger2Active}");
-        if (!doorOpened && trigger1Active && trigger2Active)
+        if (!doorOpened && trigger1Active && trigger2Active && trigger3Active)
         {
             Debug.Log("문 열림");
             OpenDoor();
@@ -37,5 +37,10 @@ public class DoorController : MonoBehaviour
     public void SetTrigger2(bool active)
     {
         trigger2Active = active;
+    }
+
+    public void SetTrigger3(bool active)
+    {
+        trigger3Active = active;
     }
 }
