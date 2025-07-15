@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class ScareTrigger : MonoBehaviour
 {
     public enum ScareType
@@ -13,9 +14,9 @@ public class ScareTrigger : MonoBehaviour
 
     public ScareType scareType;
 
-    public GameObject jumpscareImage;         // 캔버스 안의 이미지 (UI)
-    public AudioSource scaryBGM;         // 긴박한 배경음
-    public CameraShaker cameraShaker;    // 화면 흔들기 스크립트
+    public GameObject jumpscareImagePrefab;  // 런타임에 생성할 이미지 프리팹 (UI가 아닌 일반 오브젝트도 가능)
+    public AudioSource scaryBGM;             // 긴박한 배경음
+    public CameraShaker cameraShaker;        // 화면 흔들기 스크립트
 
     private bool activated = false;
 
@@ -44,11 +45,20 @@ public class ScareTrigger : MonoBehaviour
 
     IEnumerator ShowJumpscare()
     {
-        if (jumpscareImage != null)
+        if (jumpscareImagePrefab != null)
         {
-            jumpscareImage.SetActive(true);
+            GameObject instance = Instantiate(jumpscareImagePrefab);
+
+            // 원하는 위치나 회전 조정이 필요하다면 여기에 추가
+            // 예: instance.transform.position = somePosition;
+
             yield return new WaitForSeconds(2f);
-            jumpscareImage.SetActive(false);
+
+            Destroy(instance);
+        }
+        else
+        {
+            Debug.LogWarning("Jumpscare Image Prefab이 비어있습니다.");
         }
     }
 

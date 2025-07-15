@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scareType: 0
-  jumpscareImage: {fileID: 0}
+  jumpscareImagePrefab: {fileID: 3327223693268932, guid: aaa6072f8c2cbcf44aef4f4ddbe1d2d8, type: 3}
   scaryBGM: {fileID: 0}
   cameraShaker: {fileID: 0}
 --- !u!61 &8026931266702184046
