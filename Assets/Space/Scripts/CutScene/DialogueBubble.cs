@@ -6,21 +6,20 @@ public class DialogueBubble : MonoBehaviour
 {
     [Header("UI References")]
     public TextMeshProUGUI sentenceText;
-    private Image bubbleImage;
+    private Image tailImage;
 
-    [Header("Bubble Sprites")]
-    public Sprite speechBubbleSprite;
-    public Sprite thoughtBubbleSprite;
+    [Header("Tail Sprites")]
+    public Sprite speechTailSprite;
+    public Sprite thoughtTailSprite;
 
     [Header("Tracking")]
     private Transform targetTransform;
-    public Vector3 offset = new Vector3(0, 2.0f, 0);
+    public Vector3 offset = new Vector3(0, 2.2f, 0);
 
     private Camera mainCamera;
 
     private void Awake()
     {
-        bubbleImage = GetComponent<Image>();
         mainCamera = Camera.main;
     }
 
@@ -29,13 +28,13 @@ public class DialogueBubble : MonoBehaviour
         targetTransform = line.speakerTransform;
         sentenceText.text = line.sentence;
 
-        if (line.bubbleType == BubbleType.Thought)
+        if (line.tailType == TailType.Speech)
         {
-            bubbleImage.sprite = thoughtBubbleSprite;
+            tailImage.sprite = speechTailSprite;
         }
         else
         {
-            bubbleImage.sprite = speechBubbleSprite;
+            tailImage.sprite = thoughtTailSprite;
         }
         UpdatePosition();
     }

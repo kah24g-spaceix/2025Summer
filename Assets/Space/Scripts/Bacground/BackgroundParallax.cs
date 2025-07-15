@@ -5,7 +5,7 @@ using UnityEngine;
 public class BackgroundParallax : MonoBehaviour
 {
     private float length, startpos;
-    public Camera cam;
+    private Camera cam;
     public float parallexEffect;
     void Start()
     {

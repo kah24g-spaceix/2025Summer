@@ -15,6 +15,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(PlayerInput), typeof(CapsuleCollider2D))]
 public class PlayerMovePlatform : MonoBehaviour
 {
+    private bool canMove = true;
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 5f;
@@ -144,6 +145,11 @@ public class PlayerMovePlatform : MonoBehaviour
 
     private void ApplyMovement()
     {
+        if (!canMove)
+        {
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+            return;
+        }
         if (isWallSliding)
         {
             float newYVelocity = Mathf.Max(rb.linearVelocity.y, -wallSlideSpeed);
@@ -158,6 +164,11 @@ public class PlayerMovePlatform : MonoBehaviour
     // --- Input System Events ---
     public void OnMove(InputValue value)
     {
+        if (!canMove)
+        {
+            moveInput = Vector2.zero;
+            return;
+        }
         moveInput = value.Get<Vector2>();
     }
 
@@ -229,5 +240,10 @@ public class PlayerMovePlatform : MonoBehaviour
         Vector2 wallRayOrigin = bounds.center;
         Gizmos.DrawLine(wallRayOrigin, wallRayOrigin + Vector2.left * (bounds.size.x / 2 + wallCheckDistance));
         Gizmos.DrawLine(wallRayOrigin, wallRayOrigin + Vector2.right * (bounds.size.x / 2 + wallCheckDistance));
+    }
+
+    public void SetMovement(bool state)
+    {
+        canMove = state;
     }
 }
