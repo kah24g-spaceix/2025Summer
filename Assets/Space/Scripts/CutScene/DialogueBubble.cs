@@ -6,7 +6,7 @@ public class DialogueBubble : MonoBehaviour
 {
     [Header("UI References")]
     public TextMeshProUGUI sentenceText;
-    private Image tailImage;
+    public Image tailImage;
 
     [Header("Tail Sprites")]
     public Sprite speechTailSprite;

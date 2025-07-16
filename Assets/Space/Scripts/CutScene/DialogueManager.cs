@@ -11,6 +11,7 @@ public class DialogueManager : MonoBehaviour
 
     private Queue<DialogueLine> sentences;
     private bool isDialogueActive = false;
+    private bool ignoreInput = false; // 입력 무시 플래그
     private DialogueBubble currentBubble;
 
     private PlayerMovePlatform playerMoveScript;
@@ -26,7 +27,8 @@ public class DialogueManager : MonoBehaviour
 
     private void Update()
     {
-        if (isDialogueActive && Input.GetKeyDown(KeyCode.Z))
+        // 대화 중이고, 입력 무시 상태가 아닐 때 Z키를 누르면 다음 대사 표시
+        if (isDialogueActive && !ignoreInput && Input.GetKeyDown(KeyCode.Z))
         {
             DisplayNextSentence();
         }
@@ -50,15 +52,23 @@ public class DialogueManager : MonoBehaviour
         foreach (DialogueLine line in conv.lines)
             sentences.Enqueue(line);
 
-        // 바로 첫 대사를 표시하지 않고 코루틴을 통해 한 프레임 뒤에 호출
-        StartCoroutine(StartDialogueAfterFrame());
+        // 코루틴을 통해 첫 대사 표시 및 입력 무시 상태 제어
+        StartCoroutine(StartDialogueRoutine());
     }
 
-    private System.Collections.IEnumerator StartDialogueAfterFrame()
+    private System.Collections.IEnumerator StartDialogueRoutine()
     {
-        // 한 프레임 대기하여 Z키 입력 충돌을 방지
-        yield return null; 
+        // 대화 시작 시, 첫 Z키 입력을 무시하도록 설정
+        ignoreInput = true;
+
+        // 첫 대사 표시
         DisplayNextSentence();
+
+        // 한 프레임 대기
+        yield return null;
+
+        // 다음 프레임부터 Z키 입력이 가능하도록 플래그 해제
+        ignoreInput = false;
     }
 
     public void DisplayNextSentence()

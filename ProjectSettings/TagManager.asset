@@ -6,6 +6,8 @@ TagManager:
   tags:
   - TriggerZone
   - Interactable
+  - Fragment
+  - npc0
   layers:
   - Default
   - TransparentFX

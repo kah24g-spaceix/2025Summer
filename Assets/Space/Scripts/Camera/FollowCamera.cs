@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class FollowCamera : MonoBehaviour
 {
-    private GameObject cam;
+    private GameObject player;
 
     private void Awake()
     {
-        cam = GameObject.Find("Main Camera");
+        player = GameObject.FindGameObjectWithTag("Player");
     }
     void LateUpdate()
     {
-        cam.transform.position = new Vector3(transform.position.x, cam.transform.position.y, cam.transform.position.z);
+        transform.position = new Vector3(player.transform.position.x, transform.position.y, transform.position.z);
     }
 }
