@@ -12,16 +12,13 @@
 // 4. 씬(Scene) 뷰에서 콜라이더의 크기와 위치를 원하는 트리거 영역에 맞게 조절합니다.
 
 using UnityEngine;
-public class TriggerZone : MonoBehaviour
+public class TutorialZone : MonoBehaviour
 {
-    [Header("Trigger Settings")]
-    [Tooltip("트리거가 발동될 때 콘솔에 출력될 메시지입니다.")]
-    [SerializeField] private string triggerMessage = "플레이어가 트리거 존에 진입했습니다!";
+    public GameObject tutorialKey;
 
     private void Awake()
     {
-        // 스크립트가 제대로 작동하려면 콜라이더가 반드시 트리거로 설정되어 있어야 합니다.
-        // 사용자의 실수를 방지하기 위해, 코드에서도 한 번 더 확인하고 설정해줍니다.
+        tutorialKey.SetActive(false);
         GetComponent<CircleCollider2D>().isTrigger = true;
     }
 
@@ -30,8 +27,15 @@ public class TriggerZone : MonoBehaviour
         // 트리거 영역에 들어온 오브젝트가 "Player" 태그를 가지고 있는지 확인합니다.
         if (other.CompareTag("Player"))
         {
-            // 조건이 맞으면 설정된 메시지를 디버그 콘솔에 출력합니다.
-            Debug.Log(triggerMessage);
+            tutorialKey.SetActive(true);
+        }
+    }
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        // 트리거 영역에 들어온 오브젝트가 "Player" 태그를 가지고 있는지 확인합니다.
+        if (other.CompareTag("Player"))
+        {
+            tutorialKey.SetActive(false);
         }
     }
 }
