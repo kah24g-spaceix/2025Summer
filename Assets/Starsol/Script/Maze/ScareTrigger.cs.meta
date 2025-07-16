@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: e62242e5214196f4d80b36defe2095ec
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - jumpscareImagePrefab: {fileID: 3327223693268932, guid: aaa6072f8c2cbcf44aef4f4ddbe1d2d8, type: 3}
+  - scaryBGM: {instanceID: 0}
+  - cameraShaker: {instanceID: 0}
+  - keyImageUI: {fileID: 97446074835385118, guid: 636770a7999231046a131cc1b93de0ee, type: 3}
+  - dialogueText: {fileID: 3294643171721537177, guid: 0df1170a1dd14454bb52a9d8a786a361, type: 3}
+  - playerObject: {fileID: 3598098883759269809, guid: 71823032b3aaf5b4db06b78054d4c391, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

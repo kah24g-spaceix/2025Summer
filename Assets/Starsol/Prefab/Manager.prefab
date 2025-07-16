@@ -50,6 +50,9 @@ MonoBehaviour:
   jumpscareImagePrefab: {fileID: 3327223693268932, guid: aaa6072f8c2cbcf44aef4f4ddbe1d2d8, type: 3}
   scaryBGM: {fileID: 0}
   cameraShaker: {fileID: 6848137004171678520}
+  keyImageUI: {fileID: 97446074835385118, guid: 636770a7999231046a131cc1b93de0ee, type: 3}
+  dialogueText: {fileID: 3294643171721537177, guid: 0df1170a1dd14454bb52a9d8a786a361, type: 3}
+  playerObject: {fileID: 3598098883759269809, guid: 71823032b3aaf5b4db06b78054d4c391, type: 3}
 --- !u!61 &8026931266702184046
 BoxCollider2D:
   m_ObjectHideFlags: 0
