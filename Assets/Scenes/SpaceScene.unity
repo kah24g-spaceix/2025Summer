@@ -268,13 +268,13 @@ MonoBehaviour:
       sentence: "\uC544 \uADC0\uCC2E\uC544"
     - speakerTransform: {fileID: 8346062}
       tailType: 0
-      sentence: 
+      sentence: "\uC548\uB155\uD558\uC138\uC694"
     - speakerTransform: {fileID: 296359759}
       tailType: 0
-      sentence: 
+      sentence: "\uB204\uAD6C\uC57C"
     - speakerTransform: {fileID: 296359759}
       tailType: 0
-      sentence: 
+      sentence: "\uB098\uAC00"
   dialogueCamera: {fileID: 1299771005}
 --- !u!1 &313668980
 GameObject:
@@ -320,7 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed5aebd29cc060d419a0db4f9b3d9899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueBubblePrefab: {fileID: 0}
+  dialogueBubblePrefab: {fileID: 3727388433057423322, guid: abf5efc82abffc54d8b63888c0cf7200, type: 3}
 --- !u!1 &1020135253
 GameObject:
   m_ObjectHideFlags: 0
@@ -576,7 +576,7 @@ MonoBehaviour:
   m_StreamingVersion: 20241001
   m_LegacyPriority: 0
   Target:
-    TrackingTarget: {fileID: 0}
+    TrackingTarget: {fileID: 296359759}
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:

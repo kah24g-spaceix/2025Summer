@@ -182,6 +182,8 @@ public class PlayerMovePlatform : MonoBehaviour
 
     public void OnAction(InputValue value)
     {
+        // 이 로그는 'z'키를 누를 때마다 항상 표시되어야 합니다.
+        Debug.Log("OnAction called!"); 
         if (value.isPressed && isInTriggerZone)
         {
             Debug.Log("Action key pressed inside the trigger zone!");
@@ -193,6 +195,8 @@ public class PlayerMovePlatform : MonoBehaviour
     {
         if (other.CompareTag("TriggerZone"))
         {
+            // 이 로그는 TriggerZone에 들어갔을 때 표시되어야 합니다.
+            Debug.Log("Entered TriggerZone: " + other.name);
             isInTriggerZone = true;
         }
     }
@@ -201,6 +205,8 @@ public class PlayerMovePlatform : MonoBehaviour
     {
         if (other.CompareTag("TriggerZone"))
         {
+            // 이 로그는 TriggerZone에서 나갔을 때 표시되어야 합니다.
+            Debug.Log("Exited TriggerZone: " + other.name);
             isInTriggerZone = false;
         }
     }
