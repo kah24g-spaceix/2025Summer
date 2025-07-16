@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D rbody;
     
     Vector2 movementVelocity;
+    CameraFollow2 camera;
 
     void Start()
     {
@@ -46,5 +47,9 @@ public class PlayerMovement : MonoBehaviour
     {
         interactingObject.Interact();
     }
-
+    public void TeleportTo(Transform target)
+    {
+        transform.position = target.position;
+        
+    }
 }

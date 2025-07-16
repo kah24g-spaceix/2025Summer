@@ -5,7 +5,7 @@ public class CameraFollow2 : MonoBehaviour
 {
     public string playerTag = "Player";
     public float smoothSpeed = 5f;
-    public SpriteRenderer boundaryImage; // 카메라가 벗어나지 않을 이미지
+    public SpriteRenderer boundaryImage; // 현재 카메라 바운더리 이미지
 
     private Transform target;
     private float halfHeight;
@@ -16,14 +16,13 @@ public class CameraFollow2 : MonoBehaviour
     {
         StartCoroutine(FindPlayer());
 
+        // 카메라 크기 계산
+        Camera cam = Camera.main;
+        halfHeight = cam.orthographicSize;
+        halfWidth = halfHeight * cam.aspect;
+
         if (boundaryImage != null)
         {
-            // 카메라 사이즈 계산
-            Camera cam = Camera.main;
-            halfHeight = cam.orthographicSize;
-            halfWidth = halfHeight * cam.aspect;
-
-            // 이미지의 경계
             cameraBounds = boundaryImage.bounds;
         }
     }
@@ -36,7 +35,7 @@ public class CameraFollow2 : MonoBehaviour
         Vector3 targetPos = new Vector3(target.position.x, target.position.y, -10f);
         Vector3 smoothPos = Vector3.Lerp(transform.position, targetPos, smoothSpeed * Time.deltaTime);
 
-        // 카메라 위치 제한 (이미지 경계 - 카메라 절반크기 고려)
+        // 카메라 위치 제한
         float minX = cameraBounds.min.x + halfWidth;
         float maxX = cameraBounds.max.x - halfWidth;
         float minY = cameraBounds.min.y + halfHeight;
@@ -58,7 +57,17 @@ public class CameraFollow2 : MonoBehaviour
                 target = playerObj.transform;
                 yield break;
             }
-            yield return null; 
+            yield return null;
+        }
+    }
+
+    // ✅ 외부에서 경계 이미지 바꾸기 위한 함수
+    public void SetBoundary(SpriteRenderer newBoundary)
+    {
+        if (newBoundary != null)
+        {
+            boundaryImage = newBoundary;
+            cameraBounds = newBoundary.bounds;
         }
     }
 }
