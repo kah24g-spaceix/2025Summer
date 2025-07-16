@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2483555057012825902
+--- !u!1 &650703283660859782
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,37 +8,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7247327051029382154}
-  - component: {fileID: 1666648356388082876}
-  m_Layer: 0
-  m_Name: PlayerLight
+  - component: {fileID: 6083877012946811179}
+  - component: {fileID: 7129971046398180898}
+  m_Layer: 3
+  m_Name: Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7247327051029382154
+--- !u!4 &6083877012946811179
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2483555057012825902}
+  m_GameObject: {fileID: 650703283660859782}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1111112, y: 1.1111112, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1349033410303266537}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1666648356388082876
+--- !u!114 &7129971046398180898
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2483555057012825902}
+  m_GameObject: {fileID: 650703283660859782}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
@@ -47,9 +47,9 @@ MonoBehaviour:
   m_ComponentVersion: 2
   m_LightType: 3
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.67
+  m_FalloffIntensity: 0.516
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 2.63
+  m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
   m_ApplyToSortingLayers: 00000000
@@ -72,8 +72,8 @@ MonoBehaviour:
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 0.97
-  m_PointLightOuterRadius: 6.44
+  m_PointLightInnerRadius: 0.67
+  m_PointLightOuterRadius: 1.86
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
@@ -96,10 +96,10 @@ GameObject:
   - component: {fileID: 8249050413801045172}
   - component: {fileID: 3989150538859457155}
   - component: {fileID: 4469670373261557037}
-  - component: {fileID: 4045624133929354882}
+  - component: {fileID: 5588948066095998837}
   - component: {fileID: 1204065192415841031}
   m_Layer: 3
-  m_Name: PlayerTop 1
+  m_Name: PlayerTop
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -118,7 +118,7 @@ Transform:
   m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7247327051029382154}
+  - {fileID: 6083877012946811179}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8249050413801045172
@@ -240,7 +240,7 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 1}
   m_Direction: 0
---- !u!114 &4045624133929354882
+--- !u!114 &5588948066095998837
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -249,10 +249,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3598098883759269809}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08ede81c60ea0204d85a81e87cced55e, type: 3}
+  m_Script: {fileID: 11500000, guid: 58ca78a909bddd6428e113a09ea3f6a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  canMove: 1
+  interactingObject: {fileID: 0}
 --- !u!114 &1204065192415841031
 MonoBehaviour:
   m_ObjectHideFlags: 0
