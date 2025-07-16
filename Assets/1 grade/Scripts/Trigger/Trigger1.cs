@@ -1,3 +1,4 @@
+using Mono.Cecil;
 using UnityEngine;
 
 public class Trigger1 : MonoBehaviour
@@ -9,6 +10,7 @@ public class Trigger1 : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             doorController.SetTrigger1(true);
+            gameObject.SetActive(false);
         }
     }
 

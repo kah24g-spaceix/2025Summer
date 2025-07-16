@@ -9,6 +9,7 @@ public class Trigger3 : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             doorController.SetTrigger3(true);
+            gameObject.SetActive(false);
         }
     }
 
