@@ -5,10 +5,8 @@ using Unity.Mathematics;
 public class GridDrawingManager : MonoBehaviour
 {
     [SerializeField, Range(0f, 1f)] private float requiredMatchRatio = 0.7f;
-    private bool[,] answer = new bool[145, 35]; // 정답 패턴을 외부에서 정의된 배열로 초기화
- 
+    private bool[,] answer = new bool[145, 35];
 
-   
     public float cellSize = 1f;
     public int gridWidth = 10, gridHeight = 10;
 
@@ -34,6 +32,8 @@ public class GridDrawingManager : MonoBehaviour
             originWorld = drawingAreaMask.bounds.min;
         else
             originWorld = Vector3.zero;
+
+        InitializeAnswer(); // ✅ 직접 좌표로 정답 초기화
     }
 
     void Update()
@@ -158,22 +158,87 @@ public class GridDrawingManager : MonoBehaviour
                 if (answer[x, y])
                 {
                     total++;
-                    if (visited[x, y]) matched++;
+                    if (IsNearMatch(x, y)) matched++;
                 }
             }
         }
 
         float ratio = (total == 0) ? 0f : (float)matched / total;
 
-        if (ratio >= 0.7f && lastResult != DrawResult.Success)
+        if (ratio >= requiredMatchRatio && lastResult != DrawResult.Success)
         {
             Debug.Log("✅ 성공! 충분히 정확하게 그림을 그렸습니다.");
             lastResult = DrawResult.Success;
         }
-        else if (ratio <= 0.3f && lastResult != DrawResult.Fail)
+        else if (ratio <= 0.4f && lastResult != DrawResult.Fail)
         {
             Debug.Log("❌ 실패. 거의 일치하지 않습니다.");
             lastResult = DrawResult.Fail;
         }
     }
+
+    bool IsNearMatch(int x, int y)
+    {
+        for (int dx = -2; dx <= 2; dx++)
+        {
+            for (int dy = -2; dy <= 2; dy++)
+            {
+                int nx = x + dx;
+                int ny = y + dy;
+
+                if (nx >= 0 && nx < gridWidth && ny >= 0 && ny < gridHeight)
+                {
+                    if (visited[nx, ny])
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    // ✅ 추가: 정답지 초기화 함수
+    void InitializeAnswer()
+    {
+        answer = new bool[145, 35];
+
+        // 붉은 선 좌표 직접 입력
+        answer[85, 27] = true;
+        answer[85, 26] = true;
+        answer[85, 25] = true;
+        answer[85, 24] = true;
+
+        answer[86, 24] = true;
+        answer[87, 24] = true;
+        answer[88, 24] = true;
+
+        answer[88, 23] = true;
+        answer[88, 22] = true;
+        answer[88, 21] = true;
+
+        answer[87, 21] = true;
+        answer[86, 21] = true;
+        answer[85, 21] = true;
+
+        answer[85, 20] = true;
+        answer[85, 19] = true;
+        answer[85, 18] = true;
+        answer[85, 17] = true;
+
+        answer[86, 17] = true;
+        answer[87, 17] = true;
+        answer[88, 17] = true;
+
+        answer[88, 16] = true;
+        answer[88, 15] = true;
+        answer[88, 14] = true;
+
+        answer[87, 14] = true;
+        answer[86, 14] = true;
+        answer[85, 14] = true;
+
+        answer[85, 13] = true;
+        answer[85, 12] = true;
+    }
+
 }
