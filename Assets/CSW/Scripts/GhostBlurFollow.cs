@@ -31,9 +31,12 @@ public class GhostBlurFollow : MonoBehaviour
     private List<SpriteRenderer> copies = new List<SpriteRenderer>();
     private bool hasFaded = false;
 
+    public Transform start;
+    
     void Awake()
     {
         original = GetComponent<SpriteRenderer>();
+        start = GameObject.Find("StartPo").transform;
 
         // 완전히 안 보이게
         original.enabled = false;
@@ -135,5 +138,9 @@ public class GhostBlurFollow : MonoBehaviour
             Vector2 offset = Random.insideUnitCircle * radius;
             sr.transform.localPosition = offset;
         }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        target.transform.position = start.transform.position;
     }
 }

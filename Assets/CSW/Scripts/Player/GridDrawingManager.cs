@@ -14,6 +14,9 @@ public class GridDrawingManager : MonoBehaviour
     public LineRenderer linePrefab;
     public SpriteRenderer drawingAreaMask;
 
+    public Transform player;
+    public Transform TargetPosition;
+
     private bool[,] visited;
     private LineRenderer currentLine;
     private List<Vector3> points;
@@ -178,7 +181,9 @@ public class GridDrawingManager : MonoBehaviour
         else if (ratio <= 0.4f && lastResult != DrawResult.Fail)
         {
             Debug.Log("❌ 실패. 거의 일치하지 않습니다.");
+
             lastResult = DrawResult.Fail;
+            player.transform.position = TargetPosition.transform.position;
         }
         Debug.Log(ratio + " " + total + " " + matched + " 완료.");
     }

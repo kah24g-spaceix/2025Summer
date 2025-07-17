@@ -7,7 +7,6 @@ public class PlayerMovement : MonoBehaviour
     public float speed;
     Animator animator;
     SpriteRenderer sr;
-
     Vector2 lastDir;
 
     Rigidbody2D rbody;

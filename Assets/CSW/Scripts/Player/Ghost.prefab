@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 2057573424741268371}
   - component: {fileID: 7261057133994438132}
   - component: {fileID: 7940508726907061483}
+  - component: {fileID: 1814177521979686809}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -195,3 +196,41 @@ MonoBehaviour:
   fadeDuration: 1
   target: {fileID: 3011991380839540055, guid: 5ccfe2ed47ff0b644b12803d1d4159fa, type: 3}
   followSpeed: 1.5
+  start: {fileID: 0}
+--- !u!70 &1814177521979686809
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3603372979190042023}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 1, y: 2}
+  m_Direction: 0
