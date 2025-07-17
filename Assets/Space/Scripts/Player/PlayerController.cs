@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private PlayerInputHandler inputHandler;
     public PlayerMovement0 movement;
     private PlayerStateChecker stateChecker;
+    public Animator animator;
 
     private Rigidbody2D rb;
 
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
         inputHandler = GetComponent<PlayerInputHandler>();
         movement = GetComponent<PlayerMovement0>();
         stateChecker = GetComponent<PlayerStateChecker>();
+        animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -41,6 +43,16 @@ public class PlayerController : MonoBehaviour
             currentInteractable.Interact(this);
         }
     }
+
+    private void FixedUpdate()
+    {
+        if (animator != null)
+        {
+            animator.SetBool("IsGrounded", stateChecker.IsGrounded);
+            animator.SetBool("Walk", movement.IsMoving);
+        }
+    }
+
     // 외부 제어
     public void SetMovement(bool state)
     {
