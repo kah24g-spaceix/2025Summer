@@ -35,6 +35,9 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float coyoteTime = 0.15f;
     [SerializeField] private float jumpBufferTime = 0.1f;
 
+    Animator anim;
+    SpriteRenderer spriteRenderer;
+
     // private components and state
     private Rigidbody2D rb;
     private CapsuleCollider2D capsuleCollider;
@@ -47,11 +50,16 @@ public class PlayerMove : MonoBehaviour
     private float coyoteTimeCounter;
     private float jumpBufferCounter;
 
+    bool isGravityReversed = false;
+
+
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
+        anim = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
     }
 
@@ -62,6 +70,10 @@ public class PlayerMove : MonoBehaviour
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             rb.gravityScale *= -1;
+
+            isGravityReversed = !isGravityReversed;
+
+            spriteRenderer.flipY = isGravityReversed;
         }
             
     }
@@ -145,6 +157,18 @@ public class PlayerMove : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(moveInput.x * moveSpeed, rb.linearVelocity.y);
         }
+
+        anim.SetFloat("Speed", Mathf.Abs(moveInput.x));
+        if (moveInput.x > 0)
+        {
+            spriteRenderer.flipX = true;
+        }
+        else if (moveInput.x < 0)
+        {
+            spriteRenderer.flipX = false;
+        }
+
+        
     }
 
     // --- Input System Events ---

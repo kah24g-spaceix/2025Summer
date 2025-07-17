@@ -3,25 +3,13 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
-    public string sceneName;
+    public SceneFader sceneFader;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            SceneManager.LoadScene(sceneName);
+            sceneFader.FadeOutAndLoadScene("Stage3"); // "NextSceneName" should be replaced with the actual scene name you want to load
         }
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
