@@ -18,6 +18,7 @@ public class TutorialZone : MonoBehaviour
     private bool pressKey;
     private void Awake()
     {
+        tutorialKey = gameObject.GetComponentInChildren<Transform>().gameObject;
         tutorialKey.SetActive(false);
         GetComponent<CircleCollider2D>().isTrigger = true;
     }

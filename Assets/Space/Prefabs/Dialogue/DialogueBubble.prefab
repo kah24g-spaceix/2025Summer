@@ -32,10 +32,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 4758368246454609290}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -40.644974}
-  m_SizeDelta: {x: 21.57, y: 33.07}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 30.952}
+  m_SizeDelta: {x: 55.85, y: 63.22}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1230726115866625742
 CanvasRenderer:
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: 111
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d7de971e47e44514c81f73440c47b97c, type: 2}
   m_sharedMaterial: {fileID: 5963893721024785334, guid: d7de971e47e44514c81f73440c47b97c, type: 2}
@@ -367,8 +367,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 150, y: 150}
+  m_AnchoredPosition: {x: 0, y: -0.1039}
+  m_SizeDelta: {x: 150, y: 185.2715}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &8176168127399752492
 Canvas:
@@ -415,7 +415,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &711343811325075561
 MonoBehaviour:
   m_ObjectHideFlags: 0
