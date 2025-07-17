@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         MovementHandle();
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             Interact();
         }

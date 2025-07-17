@@ -5,7 +5,7 @@ using Unity.Mathematics;
 public class GridDrawingManager : MonoBehaviour
 {
     [SerializeField, Range(0f, 1f)] private float requiredMatchRatio = 0.7f;
-    private bool[,] answer = new bool[145, 35];
+    private bool[,] answer = new bool[90, 20];
 
     public float cellSize = 1f;
     public int gridWidth = 10, gridHeight = 10;
@@ -158,7 +158,7 @@ public class GridDrawingManager : MonoBehaviour
                 if (answer[x, y])
                 {
                     total++;
-                    if (IsNearMatch(x, y)) matched++;
+                    //if (IsNearMatch(x, y)) matched++;
                 }
             }
         }
@@ -177,68 +177,48 @@ public class GridDrawingManager : MonoBehaviour
         }
     }
 
-    bool IsNearMatch(int x, int y)
-    {
-        for (int dx = -2; dx <= 2; dx++)
-        {
-            for (int dy = -2; dy <= 2; dy++)
-            {
-                int nx = x + dx;
-                int ny = y + dy;
-
-                if (nx >= 0 && nx < gridWidth && ny >= 0 && ny < gridHeight)
-                {
-                    if (visited[nx, ny])
-                        return true;
-                }
-            }
-        }
-        return false;
-    }
+   
 
 
     // ✅ 추가: 정답지 초기화 함수
     void InitializeAnswer()
     {
-        answer = new bool[145, 35];
+        answer = new bool[90, 20];
 
-        // 붉은 선 좌표 직접 입력
-        answer[85, 27] = true;
-        answer[85, 26] = true;
-        answer[85, 25] = true;
-        answer[85, 24] = true;
+        // 새로운 "S"자 형태 정답 좌표
+        answer[56, 7] = true;
+        answer[57, 7] = true;
+        answer[57, 8] = true;
+        answer[58, 8] = true;
+        answer[58, 9] = true;
+        answer[58, 10] = true;
+        answer[58, 11] = true;
 
-        answer[86, 24] = true;
-        answer[87, 24] = true;
-        answer[88, 24] = true;
 
-        answer[88, 23] = true;
-        answer[88, 22] = true;
-        answer[88, 21] = true;
+        answer[55, 11] = true;
+        answer[56, 11] = true;
+        answer[57, 11] = true;
 
-        answer[87, 21] = true;
-        answer[86, 21] = true;
-        answer[85, 21] = true;
+        answer[55, 12] = true;
+        answer[56, 12] = true;
+        answer[57, 12] = true;
+        answer[58, 12] = true;
 
-        answer[85, 20] = true;
-        answer[85, 19] = true;
-        answer[85, 18] = true;
-        answer[85, 17] = true;
+        answer[58, 13] = true;
+        answer[59, 13] = true;
+        answer[60, 13] = true;
+        answer[60, 14] = true;
+        answer[60, 15] = true;
 
-        answer[86, 17] = true;
-        answer[87, 17] = true;
-        answer[88, 17] = true;
+        answer[59, 15] = true;
+        answer[58, 15] = true;
+        answer[57, 15] = true;
+        answer[56, 15] = true;
+        answer[56, 16] = true;
 
-        answer[88, 16] = true;
-        answer[88, 15] = true;
-        answer[88, 14] = true;
 
-        answer[87, 14] = true;
-        answer[86, 14] = true;
-        answer[85, 14] = true;
-
-        answer[85, 13] = true;
-        answer[85, 12] = true;
+        
     }
+
 
 }

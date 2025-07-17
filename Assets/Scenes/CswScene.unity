@@ -710,7 +710,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -18.11, y: 2.65, z: 0}
-  m_LocalScale: {x: 0.57999235, y: 0.46361846, z: 0.22894736}
+  m_LocalScale: {x: 0.3578437, y: 0.28604332, z: 0.14125594}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1127,8 +1127,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   requiredMatchRatio: 0.7
   cellSize: 0.25
-  gridWidth: 145
-  gridHeight: 35
+  gridWidth: 90
+  gridHeight: 20
   linePrefab: {fileID: 3185104259436706211, guid: 0f6f158462c0f1a48802bb634a0229d7, type: 3}
   drawingAreaMask: {fileID: 695446177}
 --- !u!1 &963744940
