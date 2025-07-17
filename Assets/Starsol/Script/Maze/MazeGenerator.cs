@@ -6,8 +6,8 @@ public class MazeGenerator : MonoBehaviour
     public GameObject scareTriggerPrefab;
     public GameObject WallPrefab;
     public GameObject TilePrefab;
-    public GameObject keyPrefab;        // 열쇠 프리팹
-    public GameObject monsterPrefab;    // 몬스터 프리팹
+    public GameObject keyPrefab;
+    public GameObject monsterPrefab;
 
     public int width = 21;
     public int height = 21;
@@ -22,6 +22,9 @@ public class MazeGenerator : MonoBehaviour
     {
         cameraShaker = FindFirstObjectByType<CameraShaker>();
         scaryBGM = FindFirstObjectByType<AudioSource>();
+
+        if (cameraShaker == null) Debug.LogWarning("CameraShaker를 찾을 수 없습니다!");
+        if (scaryBGM == null) Debug.LogWarning("ScaryBGM를 찾을 수 없습니다!");
 
         GenerateMaze();
         GenerateTiles();
@@ -43,30 +46,27 @@ public class MazeGenerator : MonoBehaviour
 
     void GenerateMaze()
     {
-        grid = new bool[width, height];
+        InitializeGrid();
+        Carve(1, 1, Vector2Int.zero, 0);
+        RemoveRandomWalls(10);
+    }
 
+    void InitializeGrid()
+    {
+        grid = new bool[width, height];
         for (int x = 0; x < width; x++)
-        {
             for (int y = 0; y < height; y++)
                 grid[x, y] = false;
-        }
-
-        Carve(1, 1, Vector2Int.zero, 0);
-
-        RemoveRandomWalls(10);  // 벽 10개를 무작위로 길로 변경
     }
 
     void RemoveRandomWalls(int count)
     {
-        int removed = 0;
-        int attempts = 0;
-
+        int removed = 0, attempts = 0;
         while (removed < count && attempts < count * 10)
         {
             int x = Random.Range(1, width - 1);
             int y = Random.Range(1, height - 1);
 
-            // 벽이면서 양쪽에 길이 연결되도록(복잡성 유지) 약간 조건 걸 수 있음
             if (!grid[x, y])
             {
                 grid[x, y] = true;
@@ -105,9 +105,7 @@ public class MazeGenerator : MonoBehaviour
                 int nextStraightLength = (dir == lastDir) ? straightLength + 1 : 1;
 
                 if (nextStraightLength >= 4 && Random.value < 0.6f)
-                {
                     continue;
-                }
 
                 Carve(nx, ny, dir, nextStraightLength);
             }
@@ -128,28 +126,47 @@ public class MazeGenerator : MonoBehaviour
     void GenerateTiles()
     {
         for (int x = 0; x < width; x++)
-        {
             for (int y = 0; y < height; y++)
             {
                 GameObject obj = Instantiate(grid[x, y] ? TilePrefab : WallPrefab);
                 obj.transform.position = new Vector2(x * tileRatio, y * tileRatio);
             }
+    }
+
+    List<Vector2> GetAllPathTiles()
+    {
+        List<Vector2> pathTiles = new();
+        for (int x = 0; x < width; x++)
+            for (int y = 0; y < height; y++)
+                if (grid[x, y]) pathTiles.Add(new Vector2(x, y));
+        return pathTiles;
+    }
+
+    void PlaceObjectAtRandom(GameObject prefab, List<Vector2> pathTiles)
+    {
+        if (prefab == null || pathTiles.Count == 0)
+        {
+            Debug.LogWarning($"{prefab?.name ?? "오브젝트"}을(를) 배치할 수 없습니다.");
+            return;
         }
+
+        Vector2 pos = pathTiles[Random.Range(0, pathTiles.Count)];
+        Instantiate(prefab).transform.position = pos * tileRatio;
+    }
+
+    void PlaceKeyItem()
+    {
+        PlaceObjectAtRandom(keyPrefab, GetAllPathTiles());
+    }
+
+    void PlaceMonster()
+    {
+        PlaceObjectAtRandom(monsterPrefab, GetAllPathTiles());
     }
 
     void PlaceScareTriggers()
     {
-        List<Vector2> pathTiles = new List<Vector2>();
-
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                if (grid[x, y])
-                    pathTiles.Add(new Vector2(x, y));
-            }
-        }
-
+        List<Vector2> pathTiles = GetAllPathTiles();
         int totalTriggers = 9;
         int jumpscareCount = 4;
 
@@ -165,83 +182,22 @@ public class MazeGenerator : MonoBehaviour
             trigger.transform.position = pos * tileRatio;
 
             ScareTrigger scare = trigger.GetComponent<ScareTrigger>();
-
-            if (i < jumpscareCount)
-                scare.scareType = ScareTrigger.ScareType.JumpscareImage;
-            else
-                scare.scareType = (Random.value < 0.5f)
+            scare.scareType = i < jumpscareCount
+                ? ScareTrigger.ScareType.JumpscareImage
+                : (Random.value < 0.5f
                     ? ScareTrigger.ScareType.CameraShakeWithBGM
-                    : ScareTrigger.ScareType.FakeTrigger;
+                    : ScareTrigger.ScareType.FakeTrigger);
 
             scare.cameraShaker = cameraShaker;
             scare.scaryBGM = scaryBGM;
         }
     }
 
-    void PlaceKeyItem()
-    {
-        List<Vector2> pathTiles = new List<Vector2>();
-
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                if (grid[x, y])
-                    pathTiles.Add(new Vector2(x, y));
-            }
-        }
-
-        if (pathTiles.Count == 0 || keyPrefab == null)
-        {
-            Debug.LogWarning("KeyItem을 배치할 수 없습니다.");
-            return;
-        }
-
-        int index = Random.Range(0, pathTiles.Count);
-        Vector2 keyPos = pathTiles[index];
-
-        GameObject key = Instantiate(keyPrefab);
-        key.transform.position = keyPos * tileRatio;
-    }
-
-    void PlaceMonster()
-    {
-        List<Vector2> pathTiles = new List<Vector2>();
-
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                if (grid[x, y])
-                    pathTiles.Add(new Vector2(x, y));
-            }
-        }
-
-        if (pathTiles.Count == 0 || monsterPrefab == null)
-        {
-            Debug.LogWarning("괴물을 배치할 수 없습니다.");
-            return;
-        }
-
-        int index = Random.Range(0, pathTiles.Count);
-        Vector2 monsterPos = pathTiles[index];
-
-        GameObject monster = Instantiate(monsterPrefab);
-        monster.transform.position = monsterPos * tileRatio;
-    }
-
-    public bool[,] GetGrid()
-    {
-        return grid;
-    }
+    public bool[,] GetGrid() => grid;
 
     public Vector2Int WorldToGrid(Vector2 worldPos)
-    {
-        return new Vector2Int(Mathf.RoundToInt(worldPos.x / tileRatio), Mathf.RoundToInt(worldPos.y / tileRatio));
-    }
+        => new Vector2Int(Mathf.RoundToInt(worldPos.x / tileRatio), Mathf.RoundToInt(worldPos.y / tileRatio));
 
     public Vector2 GridToWorld(Vector2Int gridPos)
-    {
-        return new Vector2(gridPos.x * tileRatio, gridPos.y * tileRatio);
-    }
+        => new Vector2(gridPos.x * tileRatio, gridPos.y * tileRatio);
 }

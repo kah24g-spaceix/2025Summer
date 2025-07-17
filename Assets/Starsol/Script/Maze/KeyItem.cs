@@ -1,3 +1,4 @@
+// KeyItem.cs
 using UnityEngine;
 
 public class KeyItem : MonoBehaviour
@@ -10,9 +11,10 @@ public class KeyItem : MonoBehaviour
         if (playerInRange && Input.GetKeyDown(KeyCode.Z))
         {
             Debug.Log("열쇠를 획득했습니다!");
-
-            // 여기에 열쇠 획득 후 처리 로직 추가
             Destroy(gameObject); // 열쇠 오브젝트 제거
+
+            // 씬 전환은 
+            
         }
     }
 
