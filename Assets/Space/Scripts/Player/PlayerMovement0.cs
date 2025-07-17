@@ -17,6 +17,8 @@ public class PlayerMovement0 : MonoBehaviour
     private float coyoteTimeCounter;
     private float jumpBufferCounter;
 
+    public bool IsMoving { get; private set; } // 플레이어 움직임 상태
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -54,6 +56,7 @@ public class PlayerMovement0 : MonoBehaviour
     private void ApplyMovement()
     {
         rb.linearVelocity = new Vector2(inputHandler.MoveInput.x * moveSpeed, rb.linearVelocity.y);
+        IsMoving = inputHandler.MoveInput.x != 0; // x축 이동이 있으면 움직이는 것으로 간주
     }
 
     private void HandleJumpInput()

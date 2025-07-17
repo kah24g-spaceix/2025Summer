@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerStateChecker : MonoBehaviour
 {
     [Header("Ground Check Settings")]
-    [SerializeField] private LayerMask groundLayer;
+    private LayerMask groundLayer;
     [SerializeField] private float groundCheckDistance = 0.1f;
     [Range(0, 1)]
     [SerializeField] private float groundCheckWidth = 0.9f;
@@ -21,6 +21,21 @@ public class PlayerStateChecker : MonoBehaviour
     private void Awake()
     {
         capsuleCollider = GetComponent<CapsuleCollider2D>();
+
+        // "Ground"라는 이름의 레이어를 찾아서 groundLayer 변수에 할당합니다.
+        int groundLayerIndex = LayerMask.NameToLayer("Ground");
+
+        // 만약 "Ground" 레이어가 존재한다면
+        if (groundLayerIndex != -1)
+        {
+            // 해당 레이어만 포함하는 LayerMask를 생성합니다.
+            groundLayer = 1 << groundLayerIndex;
+        }
+        else
+        {
+            // "Ground" 레이어를 찾지 못했을 경우, 개발자에게 경고 메시지를 보냅니다.
+            Debug.LogWarning("'Ground' 레이어가 존재하지 않습니다. Project Settings > Tags and Layers에서 설정해주세요.");
+        }
     }
 
     private void FixedUpdate()

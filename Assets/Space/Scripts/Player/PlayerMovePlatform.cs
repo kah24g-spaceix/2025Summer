@@ -212,41 +212,7 @@ public class PlayerMovePlatform : MonoBehaviour
     }
 
     // --- Gizmos for Editor Visualization ---
-    private void OnDrawGizmosSelected()
-    {
-        if (capsuleCollider == null) return;
-
-        Bounds bounds = capsuleCollider.bounds;
-
-        // Ground Check Gizmos
-        float raycastWidth = bounds.size.x * groundCheckWidth * 0.5f;
-        Vector2[] rayOrigins = new Vector2[3]
-        {
-            new Vector2(bounds.center.x, bounds.min.y),
-            new Vector2(bounds.center.x - raycastWidth, bounds.min.y),
-            new Vector2(bounds.center.x + raycastWidth, bounds.min.y)
-        };
-
-        foreach (Vector2 origin in rayOrigins)
-        {
-            RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, groundCheckDistance, groundLayer);
-            if (hit.collider != null && Vector2.Angle(hit.normal, Vector2.up) < maxGroundAngle)
-            {
-                Gizmos.color = Color.green;
-            }
-            else
-            {
-                Gizmos.color = Color.red;
-            }
-            Gizmos.DrawLine(origin, origin + Vector2.down * groundCheckDistance);
-        }
-
-        // Wall Check Gizmos
-        Gizmos.color = Color.blue;
-        Vector2 wallRayOrigin = bounds.center;
-        Gizmos.DrawLine(wallRayOrigin, wallRayOrigin + Vector2.left * (bounds.size.x / 2 + wallCheckDistance));
-        Gizmos.DrawLine(wallRayOrigin, wallRayOrigin + Vector2.right * (bounds.size.x / 2 + wallCheckDistance));
-    }
+    
 
     public void SetMovement(bool state)
     {

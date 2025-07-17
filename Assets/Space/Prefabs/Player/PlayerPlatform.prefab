@@ -12,8 +12,11 @@ GameObject:
   - component: {fileID: 5064195700526434041}
   - component: {fileID: 5957840410633577931}
   - component: {fileID: 7164535456940613139}
-  - component: {fileID: 5559878346618676725}
   - component: {fileID: 1958311218167043741}
+  - component: {fileID: 4830274354755439638}
+  - component: {fileID: 6422106070639044990}
+  - component: {fileID: 970995449600607922}
+  - component: {fileID: 2699140283968930304}
   m_Layer: 3
   m_Name: PlayerPlatform
   m_TagString: Player
@@ -155,30 +158,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 1}
   m_Direction: 0
---- !u!114 &5559878346618676725
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3247671310927523471}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9d3661769a2f6440bc8508cb6b50bbf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 5
-  jumpForce: 5
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  groundCheckDistance: 0.1
-  groundCheckWidth: 0.9
-  maxGroundAngle: 45
-  wallCheckDistance: 0.1
-  wallSlideSpeed: 2
-  coyoteTime: 0.15
-  jumpBufferTime: 0.1
 --- !u!114 &1958311218167043741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,3 +188,59 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &4830274354755439638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3247671310927523471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84745d1bd5febbf4ea5bc59f9d5dca0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6422106070639044990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3247671310927523471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa18dc377170d2e4db46a6aecb8ebee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  jumpForce: 5
+  coyoteTime: 0.15
+  jumpBufferTime: 0.1
+--- !u!114 &970995449600607922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3247671310927523471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99a05c29d486b674fa30ed8aca493721, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundCheckDistance: 0.1
+  groundCheckWidth: 0.9
+  maxGroundAngle: 45
+  wallCheckDistance: 0.1
+--- !u!114 &2699140283968930304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3247671310927523471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ef86fefd7e97ae478de48aa01ba3ecf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

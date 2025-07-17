@@ -6,14 +6,15 @@ public class FragmentZone : MonoBehaviour, IInteractable
     [Tooltip("이 조각과 연결된 NPC의 Interaction Zone을 여기에 연결하세요.")]
     public NpcInteractionZone npcInteractionZone;
 
-    private bool canInteract = false; // 플레이어가 영역 안에 있는지 확인하는 플래그
+    // private bool canInteract = false; // PlayerController가 관리하므로 필요 없음
 
     private void Awake()
     {
         GetComponent<Collider2D>().isTrigger = true;
     }
 
-    public void Interact()
+    // 플레이어가 호출해 줄 공용 Interact 함수
+    public void Interact(PlayerController playerController) // playerController를 받도록 시그니처 수정
     {
         // NPC 스크립트가 연결되었는지 확인
         if (npcInteractionZone != null)

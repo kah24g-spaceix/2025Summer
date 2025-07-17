@@ -15,19 +15,25 @@ using UnityEngine;
 public class TutorialZone : MonoBehaviour
 {
     public GameObject tutorialKey;
-
+    private bool pressKey;
     private void Awake()
     {
         tutorialKey.SetActive(false);
         GetComponent<CircleCollider2D>().isTrigger = true;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Z))
+            pressKey = true;       
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         // 트리거 영역에 들어온 오브젝트가 "Player" 태그를 가지고 있는지 확인합니다.
         if (other.CompareTag("Player"))
         {
-            tutorialKey.SetActive(true);
+            if (pressKey) tutorialKey.SetActive(false);
+            else tutorialKey.SetActive(true);
         }
     }
     private void OnTriggerExit2D(Collider2D other)

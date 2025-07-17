@@ -19,12 +19,8 @@ public class NpcInteractionZone : MonoBehaviour, IInteractable
     public CinemachineCamera dialogueCamera;
 
     [Header("Scene Transition")]
-    public string nextSceneName; 
-    public float sceneChangeDelay = 3f;
-
-    // --- 내부 상태 변수 ---
-    private bool canInteract = false;
-    private PlayerMovePlatform playerToInteract;
+    public string nextSceneName;
+    public float sceneChangeDelay = 45f;
 
     private int conversationIndex = 0;
     private bool hasCompletedFirstInteraction = false; // "방법 1"의 핵심 플래그
@@ -35,49 +31,91 @@ public class NpcInteractionZone : MonoBehaviour, IInteractable
     private bool startSceneChangeTimer = false;
     private float timer = 0f;
 
+    private PlayerController currentPlayerController; // 추가: 현재 플레이어 컨트롤러 참조
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         GetComponent<Collider2D>().isTrigger = true;
     }
 
+    private void Start()
+    {
+        // Start()는 모든 Awake()가 실행된 후에 호출되므로, DialogueManager.instance가 null이 아님을 보장할 수 있습니다.
+        if (DialogueManager.instance != null)
+        {
+            DialogueManager.instance.OnDialogueFinished += HandleDialogueFinish;
+        }
+        else
+        {
+            Debug.LogError("DialogueManager 인스턴스를 찾을 수 없습니다!");
+        }
+    }
+
+    private void OnDisable()
+    {
+        // DialogueManager 인스턴스가 아직 존재할 때만 이벤트 구독을 해제합니다.
+        if (DialogueManager.instance != null)
+        {
+            DialogueManager.instance.OnDialogueFinished -= HandleDialogueFinish;
+        }
+    }
+
     private void Update()
     {
+        if (fragmentCount >= MAX_FRAGMENTS) spriteRenderer.sprite = hintSprite;
+        if (!hasCompletedFirstInteraction) startSceneChangeTimer = true;
         HandleSceneChangeTimer();
     }
 
-    public void Interact()
+    public void Interact(PlayerController playerController)
     {
-        if (canInteract && playerToInteract != null && Input.GetKeyDown(KeyCode.Z))
+        this.currentPlayerController = playerController; // 추가: 플레이어 컨트롤러 참조 저장
+        Debug.Log($"NpcInteractionZone: Interact called. conversationIndex: {conversationIndex}, hasCompletedFirstInteraction: {hasCompletedFirstInteraction}, fragmentCount: {fragmentCount}");
+
+        // 대화가 이미 진행 중이면 새로운 대화를 시작하지 않습니다.
+        if (DialogueManager.instance != null && DialogueManager.instance.isDialogueActive)
         {
-            // 1. 힌트 조건 확인 (가장 높은 우선순위)
-            if (fragmentCount >= MAX_FRAGMENTS)
-            {
-                spriteRenderer.sprite = hintSprite;
-                DialogueManager.instance.StartDialogue(hintConversation, dialogueCamera, playerToInteract);
-                startSceneChangeTimer = true; // 힌트 대화 후 씬 전환 타이머 시작
-            }
-            // 2. 첫 상호작용이 끝나지 않았을 경우
-            else if (!hasCompletedFirstInteraction)
-            {
-                DialogueManager.instance.StartDialogue(initialConversations[conversationIndex], dialogueCamera, playerToInteract);
-                conversationIndex++;
-
-                // 모든 초기 대화가 끝났는지 확인
-                if (conversationIndex >= initialConversations.Count)
-                {
-                    hasCompletedFirstInteraction = true;
-                }
-            }
-            // 3. 첫 상호작용이 끝난 후 (반복 대화)
-            else
-            {
-                DialogueManager.instance.StartDialogue(loopConversation, dialogueCamera, playerToInteract);
-            }
-
-            // 한 번 상호작용 했으므로 다음 프레임까지 대기
-            canInteract = false;
+            Debug.Log("Dialogue is already active. Ignoring new interaction request.");
+            return;
         }
+
+        // 1. 힌트 조건 확인 (가장 높은 우선순위)
+        if (fragmentCount >= MAX_FRAGMENTS)
+        {
+            DialogueManager.instance.StartDialogue(hintConversation, dialogueCamera, playerController);
+            // 힌트 대화 후 씬 전환 타이머 시작
+        }
+        // 2. 첫 상호작용이 끝나지 않았을 경우
+        else if (!hasCompletedFirstInteraction)
+        {
+            // 대화를 시작하기만 하고, 인덱스는 여기서 증가시키지 않습니다.
+            DialogueManager.instance.StartDialogue(initialConversations[conversationIndex], dialogueCamera, playerController);
+        }
+        // 3. 첫 상호작용이 끝난 후 (반복 대화)
+        else
+        {
+            DialogueManager.instance.StartDialogue(loopConversation, dialogueCamera, playerController);
+        }
+    }
+
+    // DialogueManager로부터 대화가 끝났다는 신호를 받으면 이 함수가 실행됩니다.
+    private void HandleDialogueFinish()
+    {
+        Debug.Log($"NpcInteractionZone: HandleDialogueFinish called. Before - conversationIndex: {conversationIndex}, hasCompletedFirstInteraction: {hasCompletedFirstInteraction}");
+
+        // 첫 번째 상호작용 중이었을 때만 인덱스를 증가시킵니다.
+        if (!hasCompletedFirstInteraction)
+        {
+            conversationIndex++;
+
+            // 인덱스를 증가시킨 후, 모든 초기 대화가 끝났는지 확인합니다.
+            if (conversationIndex >= initialConversations.Count)
+            {
+                hasCompletedFirstInteraction = true;
+            }
+        }
+        Debug.Log($"NpcInteractionZone: HandleDialogueFinish called. After - conversationIndex: {conversationIndex}, hasCompletedFirstInteraction: {hasCompletedFirstInteraction}");
     }
 
     private void HandleSceneChangeTimer()
@@ -85,10 +123,19 @@ public class NpcInteractionZone : MonoBehaviour, IInteractable
         if (startSceneChangeTimer)
         {
             timer += Time.deltaTime;
+
+            // 플레이어가 움직이면 타이머 초기화
+            if (currentPlayerController != null && currentPlayerController.movement != null && currentPlayerController.movement.enabled && currentPlayerController.movement.IsMoving)
+            {
+                timer = 0f;
+                Debug.Log("Scene change timer reset due to player movement.");
+            }
+
             if (timer >= sceneChangeDelay)
             {
                 // SceneManager.LoadScene(nextSceneName);
                 startSceneChangeTimer = false; // 타이머 중복 실행 방지
+                Debug.Log("Scene change triggered.");
             }
         }
     }
@@ -96,7 +143,7 @@ public class NpcInteractionZone : MonoBehaviour, IInteractable
     // 외부(예: FragmentZone)에서 조각을 획득했음을 알리기 위한 public 함수
     public void AddFragment()
     {
-        if (fragmentCount < MAX_FRAGMENTS) 
+        if (fragmentCount < MAX_FRAGMENTS)
         {
             fragmentCount++;
         }
