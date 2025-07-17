@@ -15,6 +15,10 @@ public class PlayerMoveTop2 : MonoBehaviour
     [Header("Interaction")]
     public Interactable interactingObject; // 현재 상호작용 대상
 
+    public Animator animator;
+    public GameObject player;
+
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -38,14 +42,18 @@ public class PlayerMoveTop2 : MonoBehaviour
 
         if (moveInput.sqrMagnitude > 0.1f)
         {
-            if (Mathf.Abs(moveInput.x) > Mathf.Abs(moveInput.y))
-                moveDirection.x = Mathf.Sign(moveInput.x);
-            else
-                moveDirection.y = Mathf.Sign(moveInput.y);
+            // 방향 설정
+            moveDirection = moveInput.normalized;
+
+            // 플레이어가 바라보는 방향 회전 설정
+            float angle = Mathf.Atan2(moveInput.y, moveInput.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angle - 90); // 위쪽이 기본 방향일 경우 -90도
         }
 
         rb.linearVelocity = moveDirection * moveSpeed;
     }
+
+
 
     public void OnMove(InputValue value)
     {
@@ -59,4 +67,6 @@ public class PlayerMoveTop2 : MonoBehaviour
             interactingObject.Interact();
         }
     }
+
+
 }
