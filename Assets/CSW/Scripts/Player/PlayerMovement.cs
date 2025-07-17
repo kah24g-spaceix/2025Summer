@@ -5,6 +5,8 @@ public class PlayerMovement : MonoBehaviour
     public InteractManager interactor;
     public Interactable interactingObject;
     public float speed;
+    Animator animator;
+    SpriteRenderer sr;
 
     Vector2 lastDir;
 
@@ -18,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
         movementVelocity = Vector2.zero;
 
         rbody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -33,9 +37,20 @@ public class PlayerMovement : MonoBehaviour
     {
         movementVelocity.x = Input.GetAxisRaw("Horizontal");
         movementVelocity.y = Input.GetAxisRaw("Vertical");
+        if (movementVelocity.x < 0 )
+        {
+            sr.flipX = false;
+        } else if (movementVelocity.x > 0)
+        {
+            sr.flipX = true;
+        }
         if (movementVelocity != Vector2.zero)
         {
             lastDir = movementVelocity;
+            animator.SetBool("isMoving", true);
+        } else
+        {
+            animator.SetBool("isMoving", false);
         }
 
         interactor.transform.localPosition = lastDir;

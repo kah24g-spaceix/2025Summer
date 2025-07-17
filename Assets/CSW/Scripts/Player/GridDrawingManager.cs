@@ -177,7 +177,7 @@ public class GridDrawingManager : MonoBehaviour
         }
     }
 
-   
+
 
 
     // ✅ 추가: 정답지 초기화 함수
@@ -217,7 +217,7 @@ public class GridDrawingManager : MonoBehaviour
         answer[56, 16] = true;
 
 
-        
+
     }
 
 
