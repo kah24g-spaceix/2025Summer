@@ -23,8 +23,8 @@ public class MazeGenerator : MonoBehaviour
         cameraShaker = FindFirstObjectByType<CameraShaker>();
         scaryBGM = FindFirstObjectByType<AudioSource>();
 
-        if (cameraShaker == null) Debug.LogWarning("CameraShaker¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù!");
-        if (scaryBGM == null) Debug.LogWarning("ScaryBGM¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù!");
+        if (cameraShaker == null) Debug.LogWarning("CameraShakerï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½!");
+        if (scaryBGM == null) Debug.LogWarning("ScaryBGMï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½!");
 
         GenerateMaze();
         GenerateTiles();
@@ -146,7 +146,7 @@ public class MazeGenerator : MonoBehaviour
     {
         if (prefab == null || pathTiles.Count == 0)
         {
-            Debug.LogWarning($"{prefab?.name ?? "¿ÀºêÁ§Æ®"}À»(¸¦) ¹èÄ¡ÇÒ ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogWarning($"{prefab?.name ?? "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®"}ï¿½ï¿½(ï¿½ï¿½) ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
             return;
         }
 

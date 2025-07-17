@@ -81,14 +81,14 @@ public class GridDrawingManager : MonoBehaviour
 
         MarkVisited(gridPos);
         lastGridPos = gridPos;
-
-        CheckDrawSuccess();
     }
 
     void EndLine()
     {
         currentLine = null;
         lastGridPos = new Vector2Int(-1, -1);
+        CheckDrawSuccess();
+
     }
 
     Vector2Int WorldToGrid(Vector3 world)
@@ -123,14 +123,16 @@ public class GridDrawingManager : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if (visited == null) return;
+        if (visited == null || answer == null) return;
 
         for (int x = 0; x < gridWidth; x++)
         {
             for (int y = 0; y < gridHeight; y++)
             {
                 Vector3 center = originWorld + new Vector3((x + 0.5f) * cellSize, (y + 0.5f) * cellSize, 0f);
-                Gizmos.color = visited[x, y] ? Color.red : new Color(0.8f, 0.8f, 0.8f, 0.3f);
+                Gizmos.color = visited[x, y] ? Color.red : new Color(0.8f, 0.8f, 0.8f, 0.2f);
+                Gizmos.DrawCube(center, Vector3.one * cellSize * 0.9f);
+                Gizmos.color = answer[x, y] ? Color.blue : new Color(0.8f, 0.8f, 0.8f, 0.1f);
                 Gizmos.DrawCube(center, Vector3.one * cellSize * 0.9f);
             }
         }
@@ -155,10 +157,13 @@ public class GridDrawingManager : MonoBehaviour
         {
             for (int y = 0; y < gridHeight; y++)
             {
-                if (answer[x, y])
+                if (visited[x, y])
                 {
                     total++;
-                    //if (IsNearMatch(x, y)) matched++;
+                    if (answer[x, y])
+                    {
+                        matched++;
+                    }
                 }
             }
         }
@@ -175,6 +180,7 @@ public class GridDrawingManager : MonoBehaviour
             Debug.Log("❌ 실패. 거의 일치하지 않습니다.");
             lastResult = DrawResult.Fail;
         }
+        Debug.Log(ratio + " " + total + " " + matched + " 완료.");
     }
 
 
@@ -183,39 +189,33 @@ public class GridDrawingManager : MonoBehaviour
     // ✅ 추가: 정답지 초기화 함수
     void InitializeAnswer()
     {
-        answer = new bool[90, 20];
+        answer = new bool[gridWidth, gridHeight];
 
         // 새로운 "S"자 형태 정답 좌표
-        answer[56, 7] = true;
+        answer[56, 6] = true;
         answer[57, 7] = true;
         answer[57, 8] = true;
-        answer[58, 8] = true;
-        answer[58, 9] = true;
-        answer[58, 10] = true;
-        answer[58, 11] = true;
-
-
+        answer[57, 9] = true;
+        answer[56, 10] = true;
+        answer[55, 10] = true;
         answer[55, 11] = true;
         answer[56, 11] = true;
         answer[57, 11] = true;
-
-        answer[55, 12] = true;
-        answer[56, 12] = true;
-        answer[57, 12] = true;
+        answer[58, 11] = true;
         answer[58, 12] = true;
-
         answer[58, 13] = true;
+        answer[58, 14] = true;
+        answer[59, 11] = true;
+        answer[59, 12] = true;
         answer[59, 13] = true;
-        answer[60, 13] = true;
-        answer[60, 14] = true;
-        answer[60, 15] = true;
+        answer[59, 14] = true;
+        answer[57, 14] = true;
+        answer[56, 14] = true;
+        answer[55, 14] = true;
+        answer[55, 15] = true;
 
-        answer[59, 15] = true;
-        answer[58, 15] = true;
-        answer[57, 15] = true;
-        answer[56, 15] = true;
-        answer[56, 16] = true;
 
+        
 
 
     }
