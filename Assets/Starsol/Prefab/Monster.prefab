@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8314442121960434463}
   - component: {fileID: 1089147028712637775}
   - component: {fileID: 6861724099988148893}
+  - component: {fileID: 8742911135063955871}
   - component: {fileID: -115008909964853604}
   m_Layer: 0
   m_Name: Monster
@@ -119,7 +120,7 @@ PolygonCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -156,6 +157,18 @@ PolygonCollider2D:
       - {x: 0.29296875, y: 0.40234375}
       - {x: 0.15234375, y: 0.47265625}
   m_UseDelaunayMesh: 0
+--- !u!114 &8742911135063955871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7507772863437391832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 492525a23d99c694295f44576fee4e92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &-115008909964853604
 MonoBehaviour:
   m_ObjectHideFlags: 0

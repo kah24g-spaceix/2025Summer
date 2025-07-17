@@ -491,8 +491,9 @@ MonoBehaviour:
   WallPrefab: {fileID: 314122201352176278, guid: f8e36ddda67c48f4784eb9e988c79883, type: 3}
   TilePrefab: {fileID: 8704257075343046500, guid: 46f7f361c390e0c4888ff7647f158c11, type: 3}
   keyPrefab: {fileID: 3425426955394300833, guid: 3308ab916d2f13d45abdb84ee78f9367, type: 3}
-  width: 31
-  height: 31
+  monsterPrefab: {fileID: 7507772863437391832, guid: 902baceffe5c29e409762636f6c9db88, type: 3}
+  width: 41
+  height: 41
   tileRatio: 1
 --- !u!4 &1140709045
 Transform:
