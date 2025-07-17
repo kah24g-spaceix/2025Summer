@@ -32,11 +32,17 @@ public class GhostBlurFollow : MonoBehaviour
     private bool hasFaded = false;
 
     public Transform start;
-    
+    public ScreenFader screenFader; // FadeImage를 가진 오브젝트 연결 필요
+    private bool teleporting = false;
+    private Vector3 myStartPos;
+
     void Awake()
     {
         original = GetComponent<SpriteRenderer>();
         start = GameObject.Find("StartPo").transform;
+        screenFader = FindFirstObjectByType<ScreenFader>();
+        myStartPos = transform.position;
+
 
         // 완전히 안 보이게
         original.enabled = false;
@@ -139,8 +145,30 @@ public class GhostBlurFollow : MonoBehaviour
             sr.transform.localPosition = offset;
         }
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        target.transform.position = start.transform.position;
+        if (!teleporting)
+            StartCoroutine(TeleportWithFade());
+    }
+
+    private IEnumerator TeleportWithFade()
+    {
+        teleporting = true;
+
+        // 페이드 아웃
+        if (screenFader != null)
+            yield return StartCoroutine(screenFader.FadeOut());
+
+        // 위치 이동
+        if (target != null && start != null)
+            target.transform.position = start.position;
+        transform.position = myStartPos;
+
+        // 페이드 인
+        if (screenFader != null)
+            yield return StartCoroutine(screenFader.FadeIn());
+
+        teleporting = false;
     }
 }

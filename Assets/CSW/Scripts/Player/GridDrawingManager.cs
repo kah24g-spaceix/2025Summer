@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using System.Collections;
 
 public class GridDrawingManager : MonoBehaviour
 {
@@ -23,19 +24,23 @@ public class GridDrawingManager : MonoBehaviour
     private Vector2Int lastGridPos = new Vector2Int(-1, -1);
     private Vector3 originWorld;
 
-    private enum DrawResult { None, Success, Fail }
-    private DrawResult lastResult = DrawResult.None;
-
     void Start()
+    {
+        Init();
+    }
+
+    void Init()
     {
         visited = new bool[gridWidth, gridHeight];
         points = new List<Vector3>();
-
+        if (currentLine)
+            currentLine.positionCount = 0;
+        currentLine = null;
         if (drawingAreaMask != null)
             originWorld = drawingAreaMask.bounds.min;
         else
             originWorld = Vector3.zero;
-
+        drawingAreaMask.gameObject.SetActive(false);
         InitializeAnswer(); // ✅ 직접 좌표로 정답 초기화
     }
 
@@ -88,10 +93,8 @@ public class GridDrawingManager : MonoBehaviour
 
     void EndLine()
     {
-        currentLine = null;
         lastGridPos = new Vector2Int(-1, -1);
         CheckDrawSuccess();
-
     }
 
     Vector2Int WorldToGrid(Vector3 world)
@@ -148,10 +151,14 @@ public class GridDrawingManager : MonoBehaviour
             visited[gridPos.x, gridPos.y] = true;
         }
     }
-
     public void CheckDrawSuccess()
     {
-        if (answer == null || visited == null) return;
+        StartCoroutine(CheckDrawSuccessCoroutine());
+    }
+
+    private IEnumerator CheckDrawSuccessCoroutine()
+    {
+        if (answer == null || visited == null) yield break;
 
         int total = 0;
         int matched = 0;
@@ -173,20 +180,36 @@ public class GridDrawingManager : MonoBehaviour
 
         float ratio = (total == 0) ? 0f : (float)matched / total;
 
-        if (ratio >= requiredMatchRatio && lastResult != DrawResult.Success)
+        if (ratio >= requiredMatchRatio)
         {
             Debug.Log("✅ 성공! 충분히 정확하게 그림을 그렸습니다.");
-            lastResult = DrawResult.Success;
         }
-        else if (ratio <= 0.4f && lastResult != DrawResult.Fail)
+        else
         {
             Debug.Log("❌ 실패. 거의 일치하지 않습니다.");
 
-            lastResult = DrawResult.Fail;
-            player.transform.position = TargetPosition.transform.position;
+            // 👉 페이드 오브젝트 찾기 (씬에서 직접 찾음)
+            ScreenFader fader = FindObjectOfType<ScreenFader>();
+            if (fader != null)
+            {
+                yield return StartCoroutine(fader.FadeOut());
+
+                // 순간이동
+                player.transform.position = TargetPosition.transform.position;
+                Init();
+
+                yield return StartCoroutine(fader.FadeIn());
+            }
+            else
+            {
+                // ScreenFader가 없으면 그냥 이동
+                player.transform.position = TargetPosition.transform.position;
+            }
         }
+
         Debug.Log(ratio + " " + total + " " + matched + " 완료.");
     }
+
 
 
 
