@@ -34,9 +34,14 @@ public class GhostBlurFollow : MonoBehaviour
     void Awake()
     {
         original = GetComponent<SpriteRenderer>();
-        original.enabled = false;
 
-        // 복제본 초기 생성 (알파와 위치는 Start/Fade에서 세팅)
+        // 완전히 안 보이게
+        original.enabled = false;
+        original.color = new Color(0, 0, 0, 0); // 추가 안전 조치
+        Transform capsule = transform.Find("Capsule");
+        if (capsule != null)
+            Destroy(capsule.gameObject);
+        // 복제본 생성
         for (int i = 0; i < copyCount; i++)
         {
             GameObject go = new GameObject("GhostCopy");
@@ -49,14 +54,14 @@ public class GhostBlurFollow : MonoBehaviour
             sr.sortingLayerID = original.sortingLayerID;
             sr.sortingOrder = original.sortingOrder;
 
-            // ★ 원본의 RGB 컬러(검은색)를 복사하고, 알파는 0으로 세팅
-            Color init = original.color;
-            init.a = 0f;
-            sr.color = init;
+            // 완전 투명한 검정색
+            sr.color = new Color(0f, 0f, 0f, 0f);
 
             copies.Add(sr);
         }
     }
+
+
 
     void Start()
     {
