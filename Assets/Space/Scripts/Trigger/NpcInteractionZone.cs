@@ -64,7 +64,11 @@ public class NpcInteractionZone : MonoBehaviour, IInteractable
 
     private void Update()
     {
-        if (fragmentCount >= MAX_FRAGMENTS) spriteRenderer.sprite = hintSprite;
+        if (fragmentCount >= MAX_FRAGMENTS)
+        {
+            GetComponent<Animator>().enabled = false;
+            spriteRenderer.sprite = hintSprite;
+        }
         if (!hasCompletedFirstInteraction) startSceneChangeTimer = true;
         HandleSceneChangeTimer();
     }

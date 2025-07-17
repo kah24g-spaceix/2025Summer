@@ -7,6 +7,7 @@ public class PlayerMove2 : MonoBehaviour
     public float moveSpeed = 5f;
     public Rigidbody2D rb;
     private int gravityDirection = 1;
+    private Animator anim;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -15,6 +16,7 @@ public class PlayerMove2 : MonoBehaviour
         {
             rb = GetComponent<Rigidbody2D>();
         }
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -29,6 +31,7 @@ public class PlayerMove2 : MonoBehaviour
         else if (rb.linearVelocity.x < moveSpeed * -1)
             rb.linearVelocity = new Vector2(moveSpeed * -1, rb.linearVelocity.y);
 
+        anim.SetBool("IsWalking", Mathf.Abs(h) > 0.1f);
 
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {

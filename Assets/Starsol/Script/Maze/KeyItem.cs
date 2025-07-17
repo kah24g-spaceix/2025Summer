@@ -3,18 +3,19 @@ using UnityEngine;
 
 public class KeyItem : MonoBehaviour
 {
+    private SceneFader sceneFader;
     private bool playerInRange = false;
     private GameObject player;
-
+    void Start()
+    {
+        sceneFader = FindFirstObjectByType<SceneFader>();
+    }
     void Update()
     {
         if (playerInRange && Input.GetKeyDown(KeyCode.Z))
         {
-            Debug.Log("ø≠ºË∏¶ »πµÊ«ﬂΩ¿¥œ¥Ÿ!");
-            Destroy(gameObject); // ø≠ºË ø¿∫Í¡ß∆Æ ¡¶∞≈
-
-            // æ¿ ¿¸»Ø¿∫ 
-            
+            sceneFader.FadeOutAndLoadScene("Stage4");
+            Destroy(gameObject);
         }
     }
 

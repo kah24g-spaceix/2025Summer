@@ -1,4 +1,3 @@
-using Mono.Cecil;
 using UnityEngine;
 
 public class Trigger1 : MonoBehaviour

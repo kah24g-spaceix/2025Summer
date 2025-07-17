@@ -11,6 +11,21 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainGame/Stage1.unity
     guid: 6b6627ffe136a714d986920fa5fc37c4
+  - enabled: 1
+    path: Assets/Scenes/MainGame/Stage2.unity
+    guid: 7bc3f8f98605d9c40baf2648e7c6d836
+  - enabled: 1
+    path: Assets/Scenes/MainGame/Stage3.unity
+    guid: 25a63959aeaf3fb448f35217d11c6255
+  - enabled: 1
+    path: Assets/Scenes/MainGame/Stage4.unity
+    guid: b88a869fad2db134e9533e5477e37ddc
+  - enabled: 1
+    path: Assets/Scenes/MainGame/Ending.unity
+    guid: c5fe5ec3e93296f4fa3de3dbce9f3fc6
+  - enabled: 1
+    path: Assets/Scenes/MainGame/GiveUpEnding.unity
+    guid: 5f687cbb3fc0627479e9f7c54c1bbaa3
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 09d1d1846b5ad8646a6e5f110545e03f, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

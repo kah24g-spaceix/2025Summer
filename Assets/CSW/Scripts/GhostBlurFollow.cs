@@ -39,7 +39,17 @@ public class GhostBlurFollow : MonoBehaviour
     void Awake()
     {
         original = GetComponent<SpriteRenderer>();
-        start = GameObject.Find("StartPo").transform;
+        
+        GameObject startGo = GameObject.Find("GhostTriggerZone");
+        if (startGo)
+        {
+            start = startGo.transform;
+        }
+        else
+        {
+            Debug.LogError("The 'StartPo' GameObject could not be found. Please add an object with this name to your scene.");
+        }
+
         screenFader = FindFirstObjectByType<ScreenFader>();
         myStartPos = transform.position;
 

@@ -24,6 +24,8 @@ public class GridDrawingManager : MonoBehaviour
     private Vector2Int lastGridPos = new Vector2Int(-1, -1);
     private Vector3 originWorld;
 
+    private SceneFader sceneFader;
+
     void Start()
     {
         Init();
@@ -31,6 +33,7 @@ public class GridDrawingManager : MonoBehaviour
 
     void Init()
     {
+        sceneFader = FindFirstObjectByType<SceneFader>();
         visited = new bool[gridWidth, gridHeight];
         points = new List<Vector3>();
         if (currentLine)
@@ -182,7 +185,7 @@ public class GridDrawingManager : MonoBehaviour
 
         if (ratio >= requiredMatchRatio)
         {
-            Debug.Log("✅ 성공! 충분히 정확하게 그림을 그렸습니다.");
+            sceneFader.FadeOutAndLoadScene("Endding");
         }
         else
         {

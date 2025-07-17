@@ -18,6 +18,7 @@ public class PlayerMove : MonoBehaviour
 {
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float jumpForce = 10f; // 점프 힘
 
     [Header("Ground Check Settings")]
     [SerializeField] private LayerMask groundLayer;
@@ -52,30 +53,35 @@ public class PlayerMove : MonoBehaviour
 
     bool isGravityReversed = false;
 
-
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-
     }
 
     private void Update()
     {
         jumpBufferCounter -= Time.deltaTime;
 
+        // Coyote Time을 만족하고 점프 버퍼에 입력이 있으면 점프
+        if (coyoteTimeCounter > 0f && jumpBufferCounter > 0f)
+        {
+            anim.SetTrigger("Jump"); // 점프 트리거 발동
+            float jumpDirection = isGravityReversed ? -1f : 1f;
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce * jumpDirection);
+            jumpBufferCounter = 0f;
+        }
+
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             rb.gravityScale *= -1;
-
             isGravityReversed = !isGravityReversed;
-
             spriteRenderer.flipY = isGravityReversed;
         }
-            
+        
+        UpdateAnimationState();
     }
 
     private void FixedUpdate()
@@ -91,19 +97,25 @@ public class PlayerMove : MonoBehaviour
         bool groundFound = false;
         Bounds bounds = capsuleCollider.bounds;
         float raycastWidth = bounds.size.x * groundCheckWidth * 0.5f;
+        
+        // 중력 방향에 따라 레이캐스트 시작점 조정
+        float yPos = isGravityReversed ? bounds.max.y : bounds.min.y;
         Vector2[] rayOrigins = new Vector2[3]
         {
-            new Vector2(bounds.center.x, bounds.min.y),
-            new Vector2(bounds.center.x - raycastWidth, bounds.min.y),
-            new Vector2(bounds.center.x + raycastWidth, bounds.min.y)
+            new Vector2(bounds.center.x, yPos),
+            new Vector2(bounds.center.x - raycastWidth, yPos),
+            new Vector2(bounds.center.x + raycastWidth, yPos)
         };
+
+        Vector2 rayDirection = isGravityReversed ? Vector2.up : Vector2.down;
 
         foreach (Vector2 origin in rayOrigins)
         {
-            RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, groundCheckDistance, groundLayer);
+            RaycastHit2D hit = Physics2D.Raycast(origin, rayDirection, groundCheckDistance, groundLayer);
             if (hit.collider != null)
             {
-                if (Vector2.Angle(hit.normal, Vector2.up) < maxGroundAngle)
+                float groundAngle = Vector2.Angle(hit.normal, -rayDirection);
+                if (groundAngle < maxGroundAngle)
                 {
                     groundFound = true;
                     break;
@@ -127,10 +139,8 @@ public class PlayerMove : MonoBehaviour
     // {
     //     Bounds bounds = capsuleCollider.bounds;
     //     Vector2 rayOrigin = bounds.center;
-
     //     bool hitLeft = Physics2D.Raycast(rayOrigin, Vector2.left, bounds.size.x / 2 + wallCheckDistance, groundLayer);
     //     bool hitRight = Physics2D.Raycast(rayOrigin, Vector2.right, bounds.size.x / 2 + wallCheckDistance, groundLayer);
-
     //     isAgainstWall = hitLeft || hitRight;
     // }
 
@@ -157,8 +167,17 @@ public class PlayerMove : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(moveInput.x * moveSpeed, rb.linearVelocity.y);
         }
+    }
 
-        anim.SetFloat("Speed", Mathf.Abs(moveInput.x));
+    private void UpdateAnimationState()
+    {
+        // "Walk" 파라미터 설정 (움직임이 있을 때 true)
+        anim.SetBool("Walk", Mathf.Abs(moveInput.x) > 0.1f);
+
+        // "IsGrounded" 파라미터 설정
+        anim.SetBool("IsGrounded", isGrounded);
+
+        // 캐릭터 방향 전환
         if (moveInput.x > 0)
         {
             spriteRenderer.flipX = true;
@@ -167,8 +186,6 @@ public class PlayerMove : MonoBehaviour
         {
             spriteRenderer.flipX = false;
         }
-
-        
     }
 
     // --- Input System Events ---
@@ -216,20 +233,22 @@ public class PlayerMove : MonoBehaviour
         if (capsuleCollider == null) return;
 
         Bounds bounds = capsuleCollider.bounds;
+        Vector2 rayDirection = isGravityReversed ? Vector2.up : Vector2.down;
+        float yPos = isGravityReversed ? bounds.max.y : bounds.min.y;
 
         // Ground Check Gizmos
         float raycastWidth = bounds.size.x * groundCheckWidth * 0.5f;
         Vector2[] rayOrigins = new Vector2[3]
         {
-            new Vector2(bounds.center.x, bounds.min.y),
-            new Vector2(bounds.center.x - raycastWidth, bounds.min.y),
-            new Vector2(bounds.center.x + raycastWidth, bounds.min.y)
+            new Vector2(bounds.center.x, yPos),
+            new Vector2(bounds.center.x - raycastWidth, yPos),
+            new Vector2(bounds.center.x + raycastWidth, yPos)
         };
 
         foreach (Vector2 origin in rayOrigins)
         {
-            RaycastHit2D hit = Physics2D.Raycast(origin, Vector2.down, groundCheckDistance, groundLayer);
-            if (hit.collider != null && Vector2.Angle(hit.normal, Vector2.up) < maxGroundAngle)
+            RaycastHit2D hit = Physics2D.Raycast(origin, rayDirection, groundCheckDistance, groundLayer);
+            if (hit.collider != null && Vector2.Angle(hit.normal, -rayDirection) < maxGroundAngle)
             {
                 Gizmos.color = Color.green;
             }
@@ -237,7 +256,7 @@ public class PlayerMove : MonoBehaviour
             {
                 Gizmos.color = Color.red;
             }
-            Gizmos.DrawLine(origin, origin + Vector2.down * groundCheckDistance);
+            Gizmos.DrawLine(origin, origin + rayDirection * groundCheckDistance);
         }
 
         // Wall Check Gizmos

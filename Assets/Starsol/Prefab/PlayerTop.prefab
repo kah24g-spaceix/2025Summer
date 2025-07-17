@@ -167,7 +167,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 10
   m_Sprite: {fileID: 670958927392365448, guid: 238d337f660bae94da47dce7eb41142e, type: 3}
-  m_Color: {r: 0.53333336, g: 0.916122, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -256,7 +256,6 @@ MonoBehaviour:
   moveSpeed: 5
   canMove: 1
   interactingObject: {fileID: 0}
-  animator: {fileID: 0}
   player: {fileID: 0}
 --- !u!114 &1204065192415841031
 MonoBehaviour:
