@@ -14,7 +14,7 @@ public class DialogueBubble : MonoBehaviour
 
     [Header("Tracking")]
     private Transform targetTransform;
-    public Vector3 offset = new Vector3(0, 2.2f, 0);
+    public Vector3 offset = new Vector3(0, 5f, 0);
 
     private Camera mainCamera;
 

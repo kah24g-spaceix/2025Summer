@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class NpcInteractionZone : MonoBehaviour, IInteractable
 {
     [Header("Sprite")]
+    public SceneFader fader;
     [SerializeField] private Sprite hintSprite; // 힌트 상태일 때의 스프라이트
     private SpriteRenderer spriteRenderer;
 
@@ -133,8 +134,8 @@ public class NpcInteractionZone : MonoBehaviour, IInteractable
 
             if (timer >= sceneChangeDelay)
             {
-                // SceneManager.LoadScene(nextSceneName);
-                startSceneChangeTimer = false; // 타이머 중복 실행 방지
+                fader.FadeOutAndLoadScene("Stage2");
+                startSceneChangeTimer = false;
                 Debug.Log("Scene change triggered.");
             }
         }
